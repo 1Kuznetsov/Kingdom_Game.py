@@ -2,9 +2,13 @@ import ru_local as ru
 import random
 
 random_events = [ru.NEW_CHURCH, ru.HELP_CHURCH, ru.NEW_TAX_CHURCH, ru.CHURCH_POWER,
-                 ru.CHURCH_REFORM, ru.PEACE, ru.DEMEANOR, ru.EMBASSY, ru.REFUGEE, ru.HOMELESS,
+                 ru.CHURCH_REFORM, ru.PEACE, ru.DEMONS, ru.EMBASSY, ru.REFUGEE, ru.HOMELESS,
                  ru.AGROTECH, ru.FLOOD, ru.LIVESTOCK, ru.CORN, ru.GOLD, ru.FAMINE, ru.ATTACK,
-                 ru.DEFEAT, ru.VICTORY, ru.BLACK_MARKET]
+                 ru.DEFEAT, ru.VICTORY, ru.BLACK_MARKET, ru.REBELLION, ru.WITCH_SHOP,
+                 ru.FORBIDDEN_EXPERIMENTS, ru.EDUCATION, ru.MILITARY_RESEARCH,
+                 ru.ALCHEMY_RESEARCH, ru.ARMY_HYGIENE, ru.HOSPITAL, ru.WAR_MARRY, ru.PRINCESS]
+year = [600]
+actions = []
 
 
 def choice(variants):
@@ -21,18 +25,28 @@ def accident():
     pass
 
 
-def random_event(church, people, army, wealth):
-    k = random.randint(0, 19)
+def random_event(church, people, army, wealth, marry):
+    global actions
+    if marry:
+        k = random.randint(0, 27)
+        if len(actions) >= 2:
+            while k == actions[-1] or k == actions[-2]:
+                k = random.randint(0, 27)
+    else:
+        k = random.randint(0, 29)
+        if len(actions) >= 2:
+            while k == actions[-1] or k == actions[-2]:
+                k = random.randint(0, 29)
     print(random_events[k])
     if k == 0:
-        ans = choice(ru.ANS1)
+        ans = choice(ru.ANS0)
         if ans == 1:
             church += 15
             wealth -= 10
         else:
             church -= 10
     elif k == 1:
-        ans = choice(ru.ANS2)
+        ans = choice(ru.ANS1)
         if ans == 1:
             church += 10
             wealth -= 15
@@ -40,7 +54,7 @@ def random_event(church, people, army, wealth):
             church -= 5
             people -= 5
     elif k == 2:
-        ans = choice(ru.ANS3)
+        ans = choice(ru.ANS2)
         if ans == 1:
             church += 15
             people -= 15
@@ -48,7 +62,7 @@ def random_event(church, people, army, wealth):
         else:
             church -= 12
     elif k == 3:
-        ans = choice(ru.ANS4)
+        ans = choice(ru.ANS3)
         if ans == 1:
             church += 40
             people -= 10
@@ -81,10 +95,11 @@ def random_event(church, people, army, wealth):
     elif k == 6:
         ans = choice(ru.ANS6)
         if ans == 1:
-            church += 10
-            people -= 10
+            church += 15
+            people -= 5
         else:
-            people += 5
+            church -= 10
+            people += 15
     elif k == 7:
         ans = choice(ru.ANS7)
         if ans == 1:
@@ -202,10 +217,104 @@ def random_event(church, people, army, wealth):
         else:
             people += 15
             wealth -= 5
-    return church, people, army, wealth
+    elif k == 20:
+        ans = choice(ru.ANS20)
+        if ans == 1:
+            people -= 10
+            army += 30
+            wealth -= 10
+        else:
+            church -= 10
+            people += 5
+            army -= 10
+    elif k == 21:
+        ans = choice(ru.ANS21)
+        if ans == 1:
+            church -= 25
+            people += 5
+        else:
+            church += 5
+            people -= 15
+    elif k == 22:
+        ans = choice(ru.ANS22)
+        if ans == 1:
+            church += 20
+            people -= 5
+        else:
+            church -= 25
+    elif k == 23:
+        ans = choice(ru.ANS23)
+        if ans == 1:
+            church -= 5
+            people += 15
+            wealth -= 20
+        else:
+            church += 15
+            people += 10
+            wealth -= 15
+    elif k == 24:
+        ans = choice(ru.ANS24)
+        if ans == 1:
+            people -= 5
+            army += 25
+            wealth -= 15
+        else:
+            people += 5
+            army -= 20
+    elif k == 25:
+        ans = choice(ru.ANS25)
+        if ans == 1:
+            church -= 15
+            wealth += 5
+        else:
+            church += 10
+    elif k == 26:
+        ans = choice(ru.ANS26)
+        if ans == 1:
+            people += 5
+            army += 15
+            wealth -= 10
+        else:
+            people -= 10
+            army -= 15
+    elif k == 27:
+        ans = choice(ru.ANS27)
+        if ans == 1:
+            people += 15
+            wealth -= 10
+        else:
+            people -= 15
+    elif k == 28:
+        ans = choice(ru.ANS28)
+        if ans == 1:
+            marry = 1
+            church += 10
+            people += 10
+            army += 10
+            wealth += 10
+        else:
+            people -= 10
+            wealth -= 15
+    elif k == 29:
+        ans = choice(ru.ANS29)
+        if ans == 1:
+            marry = 1
+            church += 10
+            people += 10
+            army += 10
+            wealth += 10
+        else:
+            church -= 15
+            army -= 10
+            wealth -= 15
+    actions.append(k)
+    return church, people, army, wealth, marry
 
 
 def game():
+    name = input(ru.NAME)
+    current_year = year[-1]
+    marry = 0
     church = 50
     people = 50
     army = 50
@@ -213,14 +322,15 @@ def game():
     print(ru.WELCOME)
     print(ru.RULES)
     while 0 < church < 100 and 0 < people < 100 and 0 < army < 100 and 0 < wealth < 100:
-        print(ru.CHURCH, f"= {church}", end=' ')
-        print(ru.PEOPLE, f"= {people}", end=' ')
-        print(ru.ARMY, f"= {army}", end=' ')
-        print(ru.WEALTH, f"= {wealth}")
+        current_year += 1
+        print(ru.CHURCH, f"= {church} / 100", end=' ')
+        print(ru.PEOPLE, f"= {people} / 100", end=' ')
+        print(ru.ARMY, f"= {army} / 100", end=' ')
+        print(ru.WEALTH, f"= {wealth} / 100")
         n = random.randint(1, 100)
         if n % 2 == 1:
             accident()
-        church, people, army, wealth = random_event(church, people, army, wealth)
+        church, people, army, wealth, marry = random_event(church, people, army, wealth, marry)
     else:
         if church >= 100:
             print(ru.MARTYR)
@@ -238,8 +348,12 @@ def game():
             print(ru.FEAST)
         elif wealth <= 100:
             print(ru.POVERTY)
-        print("...")
+        year.append(current_year)
+        time = year[-1] - year[-2]
+        print(f"Король {name} ({year[-2]} - {year[-1]}) правил {time} лет")
         ans = input(ru.CONTINUE).lower()
+        global actions
+        actions = []
         if ans == "да":
             game()
 
