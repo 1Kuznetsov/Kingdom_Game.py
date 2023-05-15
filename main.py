@@ -406,7 +406,7 @@ def game():
         print(ru.WEALTH, f"= {wealth} / 100")
         n = random.randint(1, 100)
         if n % 2 == 1:
-            accident()
+            accident(wealth, people, church, army)
         church, people, army, wealth, marry = random_event(church, people, army, wealth, marry)
     else:
         if church >= 100:
