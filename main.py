@@ -10,7 +10,8 @@ random_events = [ru.NEW_CHURCH, ru.HELP_CHURCH, ru.NEW_TAX_CHURCH, ru.CHURCH_POW
 year = [600]
 record = 0
 actions = []
-print(ru.RULES)
+print(ru.RULES_1)
+print(ru.RULES_2)
 
 
 def choice(variants):
@@ -406,10 +407,11 @@ def game():
         print(ru.PEOPLE, f"= {people} / 100", end=' ')
         print(ru.ARMY, f"= {army} / 100", end=' ')
         print(ru.WEALTH, f"= {wealth} / 100")
-        n = random.randint(1, 100)
+        n = random.randint(1, 1000)
         if n % 3 == 1:
             church, people, army, wealth = accident(church, people, army, wealth)
-        church, people, army, wealth, marry = random_event(church, people, army, wealth, marry)
+        else:
+            church, people, army, wealth, marry = random_event(church, people, army, wealth, marry)
     else:
         if church >= 100:
             print(ru.MARTYR)
