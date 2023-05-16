@@ -8,7 +8,9 @@ random_events = [ru.NEW_CHURCH, ru.HELP_CHURCH, ru.NEW_TAX_CHURCH, ru.CHURCH_POW
                  ru.FORBIDDEN_EXPERIMENTS, ru.EDUCATION, ru.MILITARY_RESEARCH,
                  ru.ALCHEMY_RESEARCH, ru.ARMY_HYGIENE, ru.HOSPITAL, ru.WAR_MARRY, ru.PRINCESS]
 year = [600]
+record = 0
 actions = []
+print(ru.RULES)
 
 
 def choice(variants):
@@ -21,7 +23,7 @@ def choice(variants):
         return reply
 
 
-def accident(wealth, people, church, army):
+def accident(church, people, army, wealth):
     accident_act = [ru.act_1, ru.act_2, ru.act_3, ru.act_4, ru.act_5, ru.act_9, ru.act_7, ru.act_8]
     random_index = random.randint(0, len(accident_act) - 1)
     print(accident_act[random_index])
@@ -101,6 +103,7 @@ def accident(wealth, people, church, army):
         people -= 18
         wealth -= 5
     return church, people, army, wealth
+
 
 def random_event(church, people, army, wealth, marry):
     global actions
@@ -397,7 +400,6 @@ def game():
     army = 50
     wealth = 50
     print(ru.WELCOME)
-    print(ru.RULES)
     while 0 < church < 100 and 0 < people < 100 and 0 < army < 100 and 0 < wealth < 100:
         current_year += 1
         print(ru.CHURCH, f"= {church} / 100", end=' ')
@@ -405,8 +407,8 @@ def game():
         print(ru.ARMY, f"= {army} / 100", end=' ')
         print(ru.WEALTH, f"= {wealth} / 100")
         n = random.randint(1, 100)
-        if n % 2 == 1:
-            accident(wealth, people, church, army)
+        if n % 3 == 1:
+            church, people, army, wealth = accident(church, people, army, wealth)
         church, people, army, wealth, marry = random_event(church, people, army, wealth, marry)
     else:
         if church >= 100:
@@ -427,7 +429,16 @@ def game():
             print(ru.POVERTY)
         year.append(current_year)
         time = year[-1] - year[-2]
-        print(f"Король {name} ({year[-2]} - {year[-1]}) правил {time} лет")
+        global record
+        if time > record:
+            record = time
+            print(ru.RECORD, end='')
+        if time % 10 == 1 and time % 100 != 11:
+            print(f"Король {name} ({year[-2]} - {year[-1]}) правил {time} год")
+        elif 1 < time % 10 < 5 and (time % 100 > 14 or time % 100 < 12):
+            print(f"Король {name} ({year[-2]} - {year[-1]}) правил {time} года")
+        else:
+            print(f"Король {name} ({year[-2]} - {year[-1]}) правил {time} лет")
         ans = input(ru.CONTINUE).lower()
         global actions
         actions = []
