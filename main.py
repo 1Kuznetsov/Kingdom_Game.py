@@ -25,14 +25,13 @@ def choice(variants):
 
 
 def accident(church, people, army, wealth):
-    accident_act = [ru.act_1, ru.act_2, ru.act_3, ru.act_4, ru.act_5, ru.act_9, ru.act_7, ru.act_8]
+    accident_act = [ru.act_1, ru.act_2, ru.act_3, ru.act_4, ru.act_5, ru.act_9, ru.act_7, ru.act_8, act_10]
     random_index = random.randint(0, len(accident_act) - 1)
     print(accident_act[random_index])
     act_rand = accident_act[random_index]
     if act_rand == ru.act_1:
         r1 = random.randint(10, 20)
         people -= r1
-        print(f'Минус {r1} народа')
     if act_rand == ru.act_2:
         natural_phenomena = [ru.phenomenon_1, ru.phenomenon_2, ru.phenomenon_3]
         random_phenomena = random.randint(0, len(natural_phenomena) - 1)
@@ -43,28 +42,23 @@ def accident(church, people, army, wealth):
             r3 = random.randint(10, 20)
             wealth -= r2
             people += r3
-            print(f'Минус {r2} казны, плюс {r3} народа')
         if phenomena_rand == ru.phenomenon_2:
             print(ru.phenomenon_2)
             r7 = random.randint(15, 20)
             people -= r7
             wealth -= r7
-            print(f'Минус {r7} народа, минус {r7} казны')
         if phenomena_rand == ru.phenomenon_3:
             print(ru.phenomenon_3)
             r8 = random.randint(1, 10)
             church -= r8
-            print(f'Минус {r8} церкви')
     if act_rand == ru.act_3:
         r9 = random.randint(3, 8)
         r10 = random.randint(3, 10)
         people -= r9
         army -= r10
-        print(f'Минус {r9} народа, минус {r10} армии')
     if act_rand == ru.act_4:
         r11 = random.randint(3, 10)
         church -= r11
-        print(f'Минус {r11} церкви')
     if act_rand == ru.act_5:
         accident_seeds = [ru.seed_good, ru.seed_bad]
         rand_seeds = random.randint(0, len(accident_seeds) - 1)
@@ -77,32 +71,27 @@ def accident(church, people, army, wealth):
             people += r12
             army += r13
             wealth += r14
-            print(f'Плюс {r12} народа, плюс {r13} армии, плюс {r14} казны')
         if rand_seed == ru.seed_bad:
             print(ru.seed_bad)
             r15 = random.randint(1, 8)
             people -= r15
-            print(f'Минус {r15} людей')
     if act_rand == ru.act_7:
         r20 = random.randint(1, 8)
         church -= r20
         people -= r20
-        print(f'Минус {r20} церкви, минус {r20} людей')
     if act_rand == ru.act_8:
         accident_animals = [ru.hamster, ru.rats]
         rand_animals = random.randint(0, len(accident_animals) - 1)
         rand_animal = accident_animals[rand_animals]
         if rand_animal == ru.hamster:
-            print('К Вам пришел хомяк')
             wealth += 12
-            print('Плюс 12 казны')
         if rand_animal == ru.rats:
-            print('К Вам пришла крыса')
             people -= 14
-            print('Минус 14 народа')
     if act_rand == ru.act_9:
         people -= 18
         wealth -= 5
+    if act_rand == ru.act_10:
+        wealth += 18
     return church, people, army, wealth
 
 
