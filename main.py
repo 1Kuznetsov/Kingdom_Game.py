@@ -25,7 +25,7 @@ def choice(variants):
 
 
 def accident(church, people, army, wealth):
-    accident_act = [ru.act_1, ru.act_2, ru.act_3, ru.act_4, ru.act_5, ru.act_9, ru.act_7, ru.act_8, act_10]
+    accident_act = [ru.act_1, ru.act_2, ru.act_3, ru.act_4, ru.act_5, ru.act_9, ru.act_7, ru.act_8]
     random_index = random.randint(0, len(accident_act) - 1)
     print(accident_act[random_index])
     act_rand = accident_act[random_index]
@@ -90,8 +90,6 @@ def accident(church, people, army, wealth):
     if act_rand == ru.act_9:
         people -= 18
         wealth -= 5
-    if act_rand == ru.act_10:
-        wealth += 18
     return church, people, army, wealth
 
 
